@@ -7,7 +7,8 @@ import org.projectfloodlight.openflow.protocol.OFFlowMod;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize(using=OFFlowModMapSerializer.class)
-public class OFFlowModMap {
+public class
+OFFlowModMap {
 
 	/*
 	 * Contains the following double-mapping:
