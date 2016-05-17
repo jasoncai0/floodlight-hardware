@@ -7,8 +7,11 @@ import net.floodlightcontroller.core.IOFMessageListener;
 import net.floodlightcontroller.core.IOFSwitch;
 import net.floodlightcontroller.routing.ForwardingBase;
 import net.floodlightcontroller.routing.IRoutingDecision;
+import org.projectfloodlight.openflow.protocol.OFMessage;
 import org.projectfloodlight.openflow.protocol.OFPacketIn;
 import org.projectfloodlight.openflow.types.IPv6Address;
+
+import java.util.HashMap;
 
 
 /**
@@ -18,6 +21,11 @@ public class FlowStatisticsManager extends ForwardingBase implements IFlowStatis
     @Override
     public Command processPacketInMessage(IOFSwitch sw, OFPacketIn pi, IRoutingDecision decision, FloodlightContext cntx) {
         return null;
+    }
+
+    @Override
+    protected void startUp() {
+        super.startUp();
     }
 
     @Override
@@ -36,4 +44,10 @@ public class FlowStatisticsManager extends ForwardingBase implements IFlowStatis
         return null;
     }
 
+    @Override
+    public Command receive(IOFSwitch sw, OFMessage msg, FloodlightContext cntx) {
+
+        return super.receive(sw, msg, cntx);
+
+    }
 }
