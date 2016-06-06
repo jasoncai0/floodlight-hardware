@@ -316,7 +316,7 @@ public class FloodlightModuleLoader {
         modsVisited.add(moduleName);
         IFloodlightModule module = moduleNameMap.get(moduleName);
         if (module == null) {
-            throw new FloodlightModuleException("Module " +
+              throw new FloodlightModuleException("Module " +
                     moduleName + " not found");
         }
 

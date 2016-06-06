@@ -1,7 +1,4 @@
-package net.floodlightcontroller.flowstatistics;
-
-import java.util.LinkedList;
-import java.util.List;
+package net.floodlightcontroller.flowrulepusher;
 
 /**
  * Created by zhensheng on 2016/5/17.

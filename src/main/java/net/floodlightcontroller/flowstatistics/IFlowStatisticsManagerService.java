@@ -4,6 +4,8 @@ import net.floodlightcontroller.core.module.IFloodlightService;
 import org.projectfloodlight.openflow.types.IPv6Address;
 import org.projectfloodlight.openflow.types.U128;
 
+import java.util.Map;
+
 /**
  * Created by zhensheng on 2016/5/16.
  *
@@ -11,9 +13,11 @@ import org.projectfloodlight.openflow.types.U128;
 
 
 public interface IFlowStatisticsManagerService extends IFloodlightService {
-    public String getAllFlow();
-    public String getFlowBySrcAddr(IPv6Address srcAddr);
-    public String getFlowByTuplle(FlowEntryTuple fet);
+    String getAllActiveFlow();
+    String getFlowBySrcAddr(IPv6Address srcAddr);
+    String getFlowByTuple(FlowEntryTuple fet);
+    void updateFlowRecord(boolean update);
 
+    //public Map<FlowEntryTuple,SwitchPortStatistics> getStatistics();
 
 }

@@ -13,14 +13,14 @@ import java.util.Map;
 public class FlowTable {
     private static volatile FlowTable flowTable = new FlowTable();
 
-    private static Map<FlowEntryTuple,FlowCounter> theMap ;
+    private static Map<FlowEntryTuple,SwitchPortStatistics> theMap ;
     private FlowTable(){
         theMap = new HashMap<>();
     }
     public  static  FlowTable getInstance() {
         return flowTable;
     }
-    public static Map<FlowEntryTuple,FlowCounter> getMap(){
+    public static Map<FlowEntryTuple,SwitchPortStatistics> getMap(){
         return theMap;
     }
 

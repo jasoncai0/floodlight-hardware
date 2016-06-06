@@ -77,6 +77,16 @@ IFloodlightModule  {
 		    connection  =  DriverManager.getConnection(url, user, password);
 			if(!connection.isClosed())
 				log.info("******Succeeded  connnecting  to  the  database!******");
+			Statement stmt= connection.createStatement();
+			String sql = "";
+			stmt.executeUpdate(sql);
+			String sqlquery = "";
+			ResultSet rs = stmt.executeQuery(sqlquery);
+			while(rs.next()){
+				rs.getString("ddsdd");
+
+			}
+
 		}catch(ClassNotFoundException e) {
 			log.info("Sorry,cant't  find  the  Driver!");
 			e.printStackTrace();
@@ -105,6 +115,9 @@ IFloodlightModule  {
 		}
 		return ret;
 	}
+
+
+
 	@Override
 	public  String  getRules( String  eid)  {
 		String  dst_rloc="";
@@ -356,6 +369,7 @@ IFloodlightModule  {
 	// IFloodlightModule
 	@Override
 	public Collection<Class<? extends IFloodlightService>> getModuleServices() {
+		log.info("MAP GET MODULE SERVICE");
 		Collection<Class<? extends IFloodlightService>> l = new ArrayList<Class<? extends IFloodlightService>>();
 		l.add(IMappingTableManagerService.class);
 		return  l;
@@ -363,6 +377,8 @@ IFloodlightModule  {
 
 	@Override
 	public Map<Class<? extends IFloodlightService>, IFloodlightService> getServiceImpls() {
+		log.info("MAP GET SERVICE IMPL");
+
 		Map<Class<? extends IFloodlightService>, IFloodlightService> m = new HashMap<Class<? extends IFloodlightService>, IFloodlightService>();
 		// We are the class that implements the service
 		m.put(IMappingTableManagerService.class, this);
@@ -371,6 +387,8 @@ IFloodlightModule  {
 
 	@Override
 	public Collection<Class<? extends IFloodlightService>> getModuleDependencies() {
+		log.info("MAP GET MODULE DEPENDENCIES");
+
 		Collection<Class<? extends IFloodlightService>> l = new ArrayList<Class<? extends IFloodlightService>>();
 		l.add(IFloodlightProviderService.class);
 		l.add(IRestApiService.class);
