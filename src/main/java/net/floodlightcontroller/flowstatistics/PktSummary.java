@@ -12,6 +12,17 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * 报文摘要格式
+ * ——————————————————————————————
+ * | IPV6Header                 |
+ * _____________________________
+ * | tcpheader                  |
+ * _____________________________
+ * |timestamp                  |
+ * _____________________________
+ * |input | padding           |
+ * ____________________________
+ *
  * Created by zhensheng on 2016/5/26.
  */
 public class PktSummary extends BasePacket {

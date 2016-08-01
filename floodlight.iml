@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/lib/mysql-connector-java-5.1.38-bin.jar!/" />
     <libelement value="jar://$MODULE_DIR$/lib/args4j-2.0.16.jar!/" />
     <libelement value="jar://$MODULE_DIR$/lib/cglib-nodep-2.2.2.jar!/" />
     <libelement value="jar://$MODULE_DIR$/lib/concurrentlinkedhashmap-lru-1.2.jar!/" />
@@ -396,7 +397,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/mysql-connector-java-5.1.38-bin.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/mysql-connector-java-5.1.39-bin.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -6,7 +6,13 @@ package net.floodlightcontroller.flowstatistics;
 public class SwitchPortStatistics {
     private int pkts;
     private int octs;
-    private long timestamp;
+
+    //private long timestamp;
+
+
+
+    private long first;
+    private long last;
     private byte tcpflags;
     private int drops;
 
@@ -14,10 +20,10 @@ public class SwitchPortStatistics {
 
     }
 
-    public SwitchPortStatistics(int pkts, int octs, long timestamp, byte tcpflags, int drops) {
+    public SwitchPortStatistics(int pkts, int octs, long first,long last, byte tcpflags, int drops) {
         this.pkts = pkts;
         this.octs = octs;
-        this.timestamp = timestamp;
+        this.first = first;
         this.tcpflags = tcpflags;
         this.drops = drops;
     }
@@ -37,15 +43,28 @@ public class SwitchPortStatistics {
     public void setOcts(int octs) {
         this.octs = octs;
     }
-
+    /*
     public long getTimestamp() {
         return timestamp;
     }
-
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }*/
+    public long getFirst() {
+        return first;
     }
 
+    public void setFirst(long first) {
+        this.first = first;
+    }
+
+    public long getLast() {
+        return last;
+    }
+
+    public void setLast(long last) {
+        this.last = last;
+    }
     public byte getTcpflags() {
         return tcpflags;
     }
@@ -61,6 +80,17 @@ public class SwitchPortStatistics {
     public void setDrops(int drops) {
         this.drops = drops;
     }
+    @Override
+    public String toString() {
+        return "SwitchPortStatistics{" +
+                "pkts=" + pkts +
+                ", octs=" + octs +
+                ", first=" + first +
+                ", last=" + last +
+                ", tcpflags=" + tcpflags +
+                ", drops=" + drops +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -71,7 +101,8 @@ public class SwitchPortStatistics {
 
         if (pkts != that.pkts) return false;
         if (octs != that.octs) return false;
-        if (timestamp != that.timestamp) return false;
+        if (first != that.first) return false;
+        if (last != that.last) return false;
         if (tcpflags != that.tcpflags) return false;
         return drops == that.drops;
 
@@ -81,20 +112,11 @@ public class SwitchPortStatistics {
     public int hashCode() {
         int result = pkts;
         result = 31 * result + octs;
-        result = 31 * result + (int) (timestamp ^ (timestamp >>> 32));
+        result = 31 * result + (int) (first ^ (first >>> 32));
+        result = 31 * result + (int) (last ^ (last >>> 32));
         result = 31 * result + (int) tcpflags;
         result = 31 * result + drops;
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "SwitchPortStatistics{" +
-                "pkts=" + pkts +
-                ", octs=" + octs +
-                ", timestamp=" + timestamp +
-                ", tcpflags=" + tcpflags +
-                ", drops=" + drops +
-                '}';
-    }
 }

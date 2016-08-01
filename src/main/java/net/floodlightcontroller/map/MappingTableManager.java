@@ -77,6 +77,7 @@ IFloodlightModule  {
 		    connection  =  DriverManager.getConnection(url, user, password);
 			if(!connection.isClosed())
 				log.info("******Succeeded  connnecting  to  the  database!******");
+			/*
 			Statement stmt= connection.createStatement();
 			String sql = "";
 			stmt.executeUpdate(sql);
@@ -86,6 +87,7 @@ IFloodlightModule  {
 				rs.getString("ddsdd");
 
 			}
+			*/
 
 		}catch(ClassNotFoundException e) {
 			log.info("Sorry,cant't  find  the  Driver!");

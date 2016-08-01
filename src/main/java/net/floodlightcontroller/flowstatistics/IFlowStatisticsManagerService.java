@@ -14,6 +14,7 @@ import java.util.Map;
 
 public interface IFlowStatisticsManagerService extends IFloodlightService {
     String getAllActiveFlow();
+    String getRealtimePPS();
     String getFlowBySrcAddr(IPv6Address srcAddr);
     String getFlowByTuple(FlowEntryTuple fet);
     void updateFlowRecord(boolean update);

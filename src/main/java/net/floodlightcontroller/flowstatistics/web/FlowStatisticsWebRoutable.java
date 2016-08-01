@@ -15,6 +15,7 @@ public class FlowStatisticsWebRoutable implements RestletRoutable{
     public Restlet getRestlet(Context context) {
         Router router = new Router(context);
         router.attach("/json",FlowStatisticsResource.class);
+        router.attach("/pps",PPSRealtimeResource.class);
         return router;
     }
 

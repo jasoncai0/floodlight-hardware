@@ -43,6 +43,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/org.simpleframework.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/slf4j-api-1.6.4.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/ibm/sxt/mysql-connector-java-5.1.38/mysql-connector-java-5.1.38-bin.jar"/>
+
+
 	<classpathentry kind="output" path="target/bin"/>
 </classpath>

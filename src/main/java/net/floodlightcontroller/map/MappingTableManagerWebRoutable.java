@@ -10,6 +10,8 @@ import  net.floodlightcontroller.restserver.RestletRoutable;
 import  org.restlet.Context;
 import  org.restlet.routing.Router;
 
+
+
 public class MappingTableManagerWebRoutable  implements  RestletRoutable  {
 	/**
 	 * Create   the   Restlet  router    and   bind   to  the  proper   resource.
@@ -18,6 +20,7 @@ public class MappingTableManagerWebRoutable  implements  RestletRoutable  {
 	public      Router   getRestlet(Context  context)		{
 		Router    router	=	new    Router(context);
 		router.attach("/json",MappingTableManagerResource.class);
+
 		return router;
 	}
 

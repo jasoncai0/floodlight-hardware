@@ -34,7 +34,8 @@ public class FlowStatisticsSerializer extends JsonSerializer<Map<FlowEntryTuple,
             jsonGenerator.writeStringField("input",String.valueOf(portStatsEntry.getKey().getInput()));
             jsonGenerator.writeStringField("pkts", String.valueOf(portStatsEntry.getValue().getPkts()));
             jsonGenerator.writeStringField("octs", String.valueOf(portStatsEntry.getValue().getOcts()));
-            jsonGenerator.writeStringField("timeStamp", String.valueOf(portStatsEntry.getValue().getTimestamp()));
+            jsonGenerator.writeStringField("first", String.valueOf(portStatsEntry.getValue().getFirst()));
+            jsonGenerator.writeStringField("last", String.valueOf(portStatsEntry.getValue().getLast()));
             jsonGenerator.writeStringField("tcpFlags", String.valueOf(portStatsEntry.getValue().getTcpflags()));
             jsonGenerator.writeStringField("drops", String.valueOf(portStatsEntry.getValue().getDrops()));
         }
