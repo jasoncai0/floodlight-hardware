@@ -99,12 +99,12 @@ public class FlowEntryTuple   {
     }
     public String toJson() {
         return
-                "\"srcAddr\":" + srcAddr +
-                ", \"dstAddr\":" + dstAddr +
-                ", \"srcPort\":" + srcPort +
+                "\"srcAddr\":\"" + srcAddr +
+                "\", \"dstAddr\":\"" + dstAddr +
+                "\", \"srcPort\":" + srcPort +
                 ", \"dstPort\":" + dstPort +
-                ", \"prot\":" + prot +
-                ", \"tos\":" + tos +
+                ", \"prot\":\"" + prot +
+                "\", \"tos\":" + tos +
                 ", \"input\":" + input;
 
     }
