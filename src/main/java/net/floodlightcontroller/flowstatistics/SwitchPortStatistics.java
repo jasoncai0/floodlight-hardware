@@ -92,6 +92,17 @@ public class SwitchPortStatistics {
                 '}';
     }
 
+
+    public String toJson(){
+        return
+                "\"pkts\":"+ pkts +
+                ",\"octs\" : "+ octs +
+                ",\"first\" : " + first +
+                ", \"last\" :" + last +
+                ", \"tcpflags\" :" + tcpflags +
+                ", \"drops\": " + drops;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

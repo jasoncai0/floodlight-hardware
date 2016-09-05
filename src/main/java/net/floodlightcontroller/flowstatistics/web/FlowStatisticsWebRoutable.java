@@ -21,7 +21,7 @@ public class FlowStatisticsWebRoutable implements RestletRoutable{
 
     /**
      * the rest api for active flow statistics
-     * @return thr url of api for active flow statistics
+     * @return the url of api for active flow statistics
      */
     @Override
     public String basePath() {

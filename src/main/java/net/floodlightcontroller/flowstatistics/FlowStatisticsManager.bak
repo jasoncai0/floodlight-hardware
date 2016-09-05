@@ -123,12 +123,12 @@ public class FlowStatisticsManager extends ForwardingBase implements IFlowStatis
                 isFirst = false ;
             }
             sb.append("{");
-            //sb.append("\"FlowEntryTuple\":\"");
-            sb.append(flowStatsEntry.getKey().toJson()).append(",");
-            //sb.append("\"SwitchPortStatistics\":\"");
-            sb.append(flowStatsEntry.getValue().toJson()).append(",");
-            //sb.append("\"FlowRecordAge\":\"");
-            sb.append(flowAges.get(flowStatsEntry.getKey()).toJson());
+            sb.append("\"FlowEntryTuple\":\"");
+            sb.append(flowStatsEntry.getKey().toString()).append("\",");
+            sb.append("\"SwitchPortStatistics\":\"");
+            sb.append(flowStatsEntry.getValue().toString()).append("\",");
+            sb.append("\"FlowRecordAge\":\"");
+            sb.append(flowAges.get(flowStatsEntry.getKey()).toString()).append("\"");
             sb.append("}");
 
         }
@@ -235,10 +235,12 @@ public class FlowStatisticsManager extends ForwardingBase implements IFlowStatis
             log.info("This Packet_in NOT work in FLOW_STATISTICS_MODULE");
             return Command.CONTINUE;
         }
-
+        for (byte b : msg.getData()) {
+            System.out.print(b + " ");
+        }
         log.info("This Packet_in CAN work in FLOW_STATISTICS_MODULE");
         System.out.println();
-        //log.info(Arrays.toString(msg.getData()));
+        log.info(Arrays.toString(msg.getData()));
         //byte[] pktSummary = Arrays.copyOf(msg.getData() , FLOW_PKT_SUMMARY_LENGTH);
         //log.info(Arrays.toString(pktSummary));
 
@@ -273,115 +275,17 @@ public class FlowStatisticsManager extends ForwardingBase implements IFlowStatis
          * 1、抽样比为N时，1.。。。。（N-1） 中抽取1分吗 ，结算时大小*N
          * 2、每个pktin中报文摘要数目为为 （len-offset）/FLOW_PKT_SUMMARY_LENGTH (68)，需要对已经过去的报文摘要数目进行计数
          * 3、当抽取一个报文后结算时*N ，此时在检查当时的抽样比是否变化记录它，在进行计数
-         * 4、完成一次抽样后，ischanged置为false；
+         *
          */
 
 
         /**
          * curRatio 当前采用的抽样比
          */
-        //int curRatio = pktSampling.getSamplingRate((int) pktCounter.getPPS());
-        //log.info("当前采用的抽样比: " + curRatio);
-        int curRatio = pktSampling.getCurRatio();
-        int curCount  =pktSampling.getCurCount();
-        int sampleIndex= pktSampling.getSampleIndex();
-        log.info("curRatio: "+ curRatio + " curCount: "+ curCount+ " sampleIndex: "+sampleIndex);
-
-
+        int curRatio = PktSampling.getInstance().getSamplingRate((int) pktCounter.getPPS());
+        log.info("当前采用的抽样比: " + curRatio);
+        int count= 0 ;
         while(offset  <len &&  offset+FLOW_PKT_SUMMARY_LENGTH <= len){
-
-            log.info("current offset :"+ offset + " curCount: "+ pktSampling.getCurCount() + "sampleIndex: "+ pktSampling.getSampleIndex());
-
-            if(pktSampling.curCount == pktSampling.getSampleIndex()){
-                // TODO: 2016/9/4 抽取该报文
-
-                log.info("deserializing......current offset : "+ offset );
-                PktSummary summary = new PktSummary();
-                try {
-                    summary.deserialize(data, offset, FLOW_PKT_SUMMARY_LENGTH);
-
-                } catch (PacketParsingException e) {
-                    e.printStackTrace();
-                    log.warn("deserialize error");
-                    return Command.CONTINUE;
-                }
-
-
-                //TODO:pktCounter 增加对携带的报文的信息统计
-
-                log.info("PktCounter increment");
-                pktCounter.increment(1,summary.getPayloadLength()*pktSampling.getCurRatio(),System.currentTimeMillis());
-
-
-                //TODO:当前pps对应的抽样比
-
-                PKT_SAMPLING_RATIO = PktSampling.getInstance().getSamplingRate((int) pktCounter.getPPS());
-                log.info("当前抽样比: " + PKT_SAMPLING_RATIO);
-
-
-                FlowEntryTuple tuple = new FlowEntryTuple(summary.getSourceAddress(),summary.getDestinationAddress(),
-                        summary.getSourcePort(),summary.getDestinationPort(),summary.getNextHeader(), summary.getTrafficClass(),summary.getInput() );
-                log.info("tuple " + tuple.toString());
-                //TODO :update the statistics
-                Map<FlowEntryTuple,SwitchPortStatistics> flowStats = FlowStatisticsManager.getStatistics();
-
-                if(!flowStats.containsKey(tuple)){
-                    //TODO:insert the record
-                    log.info("insert new flow record");
-                    SwitchPortStatistics curStatistics = new SwitchPortStatistics();
-                    curStatistics.setFirst(summary.timeStamp);
-                    synchronized (flowStats){
-                        flowStats.put(tuple,curStatistics);
-                    }
-                    synchronized (flowAges){
-                        flowAges.put(tuple,new FlowRecordAge());
-                    }
-
-                }
-                if((summary.getFlags()&5 )  != 0  ){
-                    synchronized (flowAges){
-                        flowAges.get(tuple).setFin(true);//FIN RST set true;
-                        log.info("flowAges  record fin" );
-                    }
-                }
-
-                SwitchPortStatistics curStatistics = flowStats.get(tuple);
-                log.info("Update flow record " + tuple.toString() + curStatistics.toString());
-
-                curStatistics.setTcpflags((byte) (curStatistics.getTcpflags() | (byte) summary.getFlags()));//tcpflags?  remove to fragment header
-                curStatistics.setDrops(curStatistics.getDrops() );//drops?
-                curStatistics.setOcts(curStatistics.getOcts() + summary.getPayloadLength() *pktSampling.getCurRatio());
-                curStatistics.setPkts(curStatistics.getPkts()+pktSampling.getCurRatio() );
-                curStatistics.setLast((long)summary.getTimeStamp());
-                synchronized (flowAges){
-                    flowAges.get(tuple).setLastUpdate(0);
-
-                }
-
-            }
-            else {
-                
-            }
-            pktSampling.curCountIncrement();
-            log.info("curCount : " + pktSampling.getCurCount());
-
-            if (pktSampling.curCount >= pktSampling.getCurRatio()){
-                // TODO: 2016/9/4 重置抽样
-                pktSampling.setCurCount(0);
-                pktSampling.setCurRatio();
-                pktSampling.setSampleIndex();
-                log.info("sampling reset...");
-            }
-
-            offset+= FLOW_PKT_SUMMARY_LENGTH;
-
-
-
-
-            
-
-
-            /*
             log.info("deserializing......current offset : "+ offset );
             PktSummary summary = new PktSummary();
             try {
@@ -394,14 +298,16 @@ public class FlowStatisticsManager extends ForwardingBase implements IFlowStatis
             }
 
 
-            //TODO:pktCounter 增加对携带的报文的信息统计
-
+            /**
+             *  TODO:pktCounter 增加对携带的报文的信息统计
+             *
+             */
             log.info("PktCounter increment");
             pktCounter.increment(1,summary.getPayloadLength(),System.currentTimeMillis());
 
-
-             //TODO:当前pps对应的抽样比
-
+            /**
+             * TODO:当前pps对应的抽样比
+             */
             PKT_SAMPLING_RATIO = PktSampling.getInstance().getSamplingRate((int) pktCounter.getPPS());
             log.info("当前抽样比: " + PKT_SAMPLING_RATIO);
 
@@ -444,12 +350,10 @@ public class FlowStatisticsManager extends ForwardingBase implements IFlowStatis
                 flowAges.get(tuple).setLastUpdate(0);
 
             }
-            offset += FLOW_PKT_SUMMARY_LENGTH;*/
+            offset += FLOW_PKT_SUMMARY_LENGTH;
         }
         log.info("报文解析时间开销："+(System.currentTimeMillis() - cur) +"ms");
         return Command.CONTINUE;
-
-
 
     }
 

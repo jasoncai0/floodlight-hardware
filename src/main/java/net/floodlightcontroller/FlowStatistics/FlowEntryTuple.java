@@ -86,6 +86,28 @@ public class FlowEntryTuple   {
                 ", input=" + input +
                 '}';
     }
+    public String toJson1() {
+        return "\"FlowEntryTuple\" : {" +
+                "\"srcAddr\":" + srcAddr +
+                ", \"dstAddr\":" + dstAddr +
+                ", \"srcPort\":" + srcPort +
+                ", \"dstPort\":" + dstPort +
+                ", \"prot\":" + prot +
+                ", \"tos\":" + tos +
+                ", \"input\":" + input +
+                '}';
+    }
+    public String toJson() {
+        return
+                "\"srcAddr\":" + srcAddr +
+                ", \"dstAddr\":" + dstAddr +
+                ", \"srcPort\":" + srcPort +
+                ", \"dstPort\":" + dstPort +
+                ", \"prot\":" + prot +
+                ", \"tos\":" + tos +
+                ", \"input\":" + input;
+
+    }
 
     public FlowEntryTuple(IPv6Address srcAddr, IPv6Address dstAddr, TransportPort srcPort,
                           TransportPort dstPort, IpProtocol prot, byte tos, int input) {

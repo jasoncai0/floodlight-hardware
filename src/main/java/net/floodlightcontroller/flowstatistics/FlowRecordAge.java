@@ -64,4 +64,10 @@ public class FlowRecordAge implements Comparable<FlowRecordAge> {
                 ", lastUpdate=" + lastUpdate +
                 '}';
     }
+    public String toJson() {
+        return
+                "\"age\":" + age +
+                ",\"fin\":" + fin +
+                ", \"lastUpdate\":" + lastUpdate;
+    }
 }

@@ -14,6 +14,8 @@ import java.util.List;
  * Created by zhensheng on 2016/7/21.
  */
 public class FlowRecordDaoImpl implements FlowRecordDao {
+
+
     @Override
     public void insertFlow(FlowRecord flowRecord) {
         long cur= System.currentTimeMillis();
