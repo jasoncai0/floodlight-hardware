@@ -221,6 +221,15 @@ public class FlowStatisticsManager extends ForwardingBase implements IFlowStatis
         return Command.CONTINUE;
     }
 
+    /**
+     * 过滤echo小流，过滤不符合规则的报文，
+     * @param summary the pkt summary
+     * @return
+     */
+    public boolean PktFilter(PktSummary summary){
+
+        return true;
+    }
 
     /**
      * 分析报文摘要，解析字段，进行统计,暂未考虑同步
@@ -301,12 +310,14 @@ public class FlowStatisticsManager extends ForwardingBase implements IFlowStatis
                     summary.deserialize(data, offset, FLOW_PKT_SUMMARY_LENGTH);
 
                 } catch (PacketParsingException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     log.warn("deserialize error");
-                    return Command.CONTINUE;
+                    offset+= FLOW_PKT_SUMMARY_LENGTH;
+                    //return Command.CONTINUE;
+                    continue;
                 }
 
-
+                log.info("version : "+String.valueOf(summary.getVersion()));
                 //TODO:pktCounter 增加对携带的报文的信息统计
 
                 log.info("PktCounter increment");

@@ -270,12 +270,12 @@ public class PktSummary extends BasePacket {
         byte firstByte = bb.get();
         byte secondByte = bb.get();
         this.version = (byte) ((firstByte & 0xF0) >>> 4);
-        /*
+
         if (this.version != 6) {
             throw new PacketParsingException(
                     "Invalid version for IPv6 packet: " +
                             this.version);
-        }*/
+        }
 
         this.trafficClass = (byte) (((firstByte & 0xF) << 4) |
                 ((secondByte & 0xF0) >>> 4));
